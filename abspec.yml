@@ -36,50 +36,13 @@ paths:
               type: string
               description: A link to the next page of responses
           schema:
-            type: "array"
+            type: array
             items:
-              type: object
-              properties:
-                automation_build:
-                  type: object
-                  $ref: '#/definitions/AutomationBuild'
+              $ref: '#/definitions/AutomationBuildWrapper'
         default:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-    #post:
-      #summary: Create a pet
-      #operationId: createPets
-      #tags:
-        #- pets
-      #responses:
-        #"201":
-          #description: Null response
-        #default:
-          #description: unexpected error
-          #schema:
-            #$ref: '#/definitions/Error'
-  #/pets/{petId}:
-    #get:
-      #summary: Info for a specific pet
-      #operationId: showPetById
-      #tags:
-        #- pets
-      #parameters:
-        #- name: petId
-          #in: path
-          #required: true
-          #description: The id of the pet to retrieve
-          #type: string
-      #responses:
-        #"200":
-          #description: Expected response to a valid request
-          #schema:
-            #$ref: '#/definitions/Pets'
-        #default:
-          #description: unexpected error
-          #schema:
-            #$ref: '#/definitions/Error'
 definitions:
   AutomationBuild:
     required:
@@ -97,6 +60,11 @@ definitions:
         format: int64
       status:
         type: string
+  AutomationBuildWrapper:
+    properties:
+      automation_build:
+        type: object
+        $ref: '#/definitions/AutomationBuild'
   Error:
     required:
       - code
