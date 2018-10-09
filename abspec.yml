@@ -1,0 +1,115 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: BrowserStack Api
+  license:
+    name: MIT
+host: api-cloud.browserstack.com
+basePath: /app-automate
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /builds:
+    get:
+      summary: List all builds
+      # what is operationId
+      operationId: listBuilds
+      tags:
+        - app_automate
+        - builds
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: A paged array of builds
+          headers:
+            x-next:
+              type: string
+              description: A link to the next page of responses
+          schema:
+            type: "array"
+            items:
+              type: object
+              properties:
+                automation_build:
+                  type: object
+                  $ref: '#/definitions/AutomationBuild'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    #post:
+      #summary: Create a pet
+      #operationId: createPets
+      #tags:
+        #- pets
+      #responses:
+        #"201":
+          #description: Null response
+        #default:
+          #description: unexpected error
+          #schema:
+            #$ref: '#/definitions/Error'
+  #/pets/{petId}:
+    #get:
+      #summary: Info for a specific pet
+      #operationId: showPetById
+      #tags:
+        #- pets
+      #parameters:
+        #- name: petId
+          #in: path
+          #required: true
+          #description: The id of the pet to retrieve
+          #type: string
+      #responses:
+        #"200":
+          #description: Expected response to a valid request
+          #schema:
+            #$ref: '#/definitions/Pets'
+        #default:
+          #description: unexpected error
+          #schema:
+            #$ref: '#/definitions/Error'
+definitions:
+  AutomationBuild:
+    required:
+      - hashed_id
+      - name
+      - duration
+      - status
+    properties:
+      hashed_id:
+        type: string
+      name:
+        type: string
+      duration:
+        type: integer
+        format: int64
+      status:
+        type: string
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+
+securityDefinitions:
+  BasicAuth:
+    type: basic
+security:
+  - BasicAuth: []
