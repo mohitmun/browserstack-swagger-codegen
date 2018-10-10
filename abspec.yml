@@ -13,6 +13,32 @@ consumes:
 produces:
   - application/json
 paths:
+  /upload:
+    post:
+      summary: Upload app
+      operationId: uploadApp
+      consumes:
+        - multipart/form-data
+      tags:
+        - app_automate
+      parameters:
+         - in: formData
+           name: file
+           type: file
+           description: The app to upload.
+      responses:
+        "200":
+          description: app_url of app
+          schema:
+            type: object
+            properties:
+              app_url:
+                type: "string"
+
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /builds:
     get:
       summary: List all builds
